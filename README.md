@@ -1,101 +1,97 @@
-# Boost-Converter/12VDCIN - 24VDCOUT #
-# ⚡ Boost Converter Design – Simulation + Layout + DFMEA
+# 🚀 Boost Converter Design DC (12V to 24V)
 
-This project demonstrates a **DC-DC Boost Converter** design using both simulation and PCB layout tools. It highlights the effect of **EMI-conscious design** by comparing circuits *with* and *without ferrite bead*, and includes DFMEA analysis for real-world reliability.
+This project implements a **DC-DC Boost Converter** that steps up **12V DC to ~24V DC**, designed using **LTspice** and **KiCad**, and validated through simulation and analysis. Two versions were tested:
+- Without feedback loop
+- With feedback loop and **ferrite bead** for EMI-conscious design
 
----
-
-## 🔁 Project Structure
-
-```
-Boost_Converter/
-├── LTspice/
-│   ├── Without_Ferrite_Bead/
-│   │   ├── boost_no_fb.asc
-│   │   └── waveform_no_fb.png
-│   └── With_Ferrite_Bead/
-│       ├── boost_with_fb.asc
-│       └── waveform_with_fb.png
+## 📂 Project Structure
+├── DFMEA
+│   ├── DFMEA_Boost_combined.xlsx
+│   └── DFMEA_SCREENSHOT_BOOST.png
 │
-├── KiCad/
-│   ├── layout.png
-│   ├── Gerber/
-│   └── BOM.xlsx
+├── KICAD
+│   ├── BOM_ALLIGNES_BOOST.xlsx
+│   ├── CKT_DIAGRAM.png
+│   ├── LAYOUT_VIEW.png
+│   ├── PCB_3D_VIEW.png
+│   ├── PCB_RARE_3D_VIEW.png
+│   └── gerber_gbr_drl.rar
 │
-├── DFMEA/
-│   └── dfmea_summary.png
-```
+├── LTSPICE
+│   ├── WITH_FB
+│   │   ├── boost_with_fb.asc
+│   │   ├── Boost_waveform_full.png
+│   │   ├── .asc_screenshot_FB.png
+│   │   └── Ripple_analysis_screenshot.png
+│   │
+│   └── Without_Ferrite_Bead
+│       ├── boost_no_fb.asc
+│       ├── boost_waveform_screenshot.png
+│       ├── .asc_screenshot.png
+│       └── Ripple_analysis_boost.png
 
 ---
 
-## 🔧 Design Summary
+## ⚙️ Specifications
 
-- **Input Voltage:** 12V
-- **Output Voltage Target:** ~24V
-- **Control Type:** Open-loop PWM
-- **Switching Element:** IRFZ44N NMOS
-- **Diode:** 1N5819 Schottky
-- **Inductor:** 220µH
-- **Capacitors:** 220µF + 0.1µF (output filter)
+- **Input Voltage:** 12V DC  
+- **Output Voltage:** ~24V DC  
+- **Switching Frequency:** ~1 kHz (open-loop)  
+- **MOSFET Used:** IRFZ44N  
+- **Diode:** 1N5819  
+- **Ferrite Bead:** Added in feedback version to reduce EMI
 
----
-
-## 🧪 Simulation (LTspice)
-
-Two simulations were performed:
-1. **Without Ferrite Bead**  
-   - Shows higher ripple & EMI noise  
-   - Output waveform: `waveform_no_fb.png`
-2. **With Ferrite Bead**  
-   - EMI noise significantly reduced  
-   - Output waveform: `waveform_with_fb.png`
+> Note: In open-loop (no feedback) simulation, voltage overshoots beyond 24V due to lack of regulation. With feedback + ferrite bead, stable 24V output is maintained.
 
 ---
 
-## 🛠️ PCB Design (KiCad)
+## 🔍 Ripple & Frequency Analysis
 
-- Designed only for **EMI-optimized version** (with ferrite bead)
-- Includes:
-  - `layout.png` (PCB layout screenshot)
-  - `Gerber/` folder for fabrication
-  - `BOM.xlsx` with all component specs
-
----
-
-## 🔍 DFMEA (Design Failure Mode & Effects Analysis)
-
-- Performed on EMI-optimized design
-- Key risks analyzed: Overheating, Load drop, Component failure
-- Output file: `dfmea_summary.png`
+| Configuration         | Peak Voltage (V) | Valley Voltage (V) | Ripple (mV) | Frequency |
+|----------------------|------------------|---------------------|-------------|-----------|
+| Without Feedback      | 27.502           | 27.212              | 289.78 mV   | ~1.002 kHz |
+| With Ferrite Bead FB  | 24.083           | 23.691              | 392.09 mV   | ~1.000 kHz |
 
 ---
 
-## ✅ Learning Outcomes
+## 🧪 EMI-Conscious Design Consideration
 
-- LTspice simulation + waveform validation
-- EMI-conscious circuit improvement
-- PCB layout using KiCad
-- DFMEA risk awareness
-- Bill of Material (BOM) creation
-- GitHub project documentation & structure
+To improve EMI behavior:
+- A **Ferrite Bead** is introduced in the feedback path.
+- KiCad layout shows optimized routing and component placement for reduced noise.
 
 ---
 
-## 💻 Tools Used
+## 📝 Tools Used
 
-- LTspice (Simulation)
-- KiCad (Layout + Gerber + BOM)
-- Excel / Visual for DFMEA
-- GitHub for structure, versioning
-
----
-
-## 📎 Screenshots Preview
-
-| Without Ferrite Bead | With Ferrite Bead |
-|----------------------|-------------------|
-| ![](LTspice/Without_Ferrite_Bead/waveform_no_fb.png) | ![](LTspice/With_Ferrite_Bead/waveform_with_fb.png) |
+- **LTspice** – Simulation of Boost Converter circuit  
+- **KiCad** – Schematic & PCB Design (with 3D views & Gerber files)  
+- **Excel** – DFMEA, BOM  
+- **GitHub** – Documentation, Project Archival  
 
 ---
 
-#BoostConverter #LTspice #KiCad #PowerElectronics #DFMEA #PCBdesign
+## 📌 Key Learnings
+
+- Open-loop converters may cause overvoltage due to lack of control  
+- Feedback helps regulate output but can increase ripple slightly  
+- EMI considerations are essential in power electronics design  
+- DFMEA ensures structured risk evaluation at design stage  
+
+---
+
+## ✅ Outcome
+
+A complete working simulation and PCB layout of a 12V to 24V Boost Converter with:
+- Dual circuit validation
+- EMI-conscious component selection
+- Design risk mitigation (via DFMEA)
+- Complete ripple & frequency analysis
+
+---
+
+## 🔗 Author
+
+**Vishal Singh**  
+Power Electronics | DFT | Hardware Design
+https://www.linkedin.com/in/vishal-singh-542338161/
